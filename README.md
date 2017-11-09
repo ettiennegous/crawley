@@ -1,2 +1,10 @@
 # crawley
-A site crawler to look for broken pages, links &amp; run some performance checks
+A multi platform site crawler that can self discover your website and crawl pages.
+
+# Can be used for #
+* SEO Audits
+* Performance testing
+* Regression testing / Find 500 errors
+* Finding broken links
+
+

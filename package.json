@@ -1,0 +1,29 @@
+{
+  "name": "crawley",
+  "version": "1.0.0",
+  "description": "A site crawler to check for broken links/pages and performance testing",
+  "main": "main.js",
+  "dependencies": {
+    "electron": "^1.7.8"
+  },
+  "devDependencies": {
+    "bluebird": "^3.5.1",
+    "cheerio": "^1.0.0-rc.2",
+    "electron": "1.7.8",
+    "phantomjs": "^2.1.7"
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "electron ."
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/ettiennegous/crawley.git"
+  },
+  "author": "Ettienne Gous",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/ettiennegous/crawley/issues"
+  },
+  "homepage": "https://github.com/ettiennegous/crawley#readme"
+}

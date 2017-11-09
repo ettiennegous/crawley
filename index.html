@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8">
+    <title>Crawley, I crawl sites!</title>
+  </head>
+  <body>
+    <div id="body">
+        <form>
+            <fieldset>
+              <legend>Crawley</legend>
+              <p>
+                <label for="url">URL:</label>
+                <input type="text" name="url" id="url" value="www.lexus.com.au">
+              </p>
+              <p>
+                <input type="button" id="btnStart" value="Start">
+              </p>
+            </fieldset>
+          </form>  
+          <ol id="output"></ol>
+    </div>
+    <script>
+      // You can also require other files to run in this process
+      require('./app/app.js')
+      require('./renderer.js')
+    </script>
+  </body>
+</html>
