@@ -1,40 +1,7 @@
-// var Logger = function() {};
-// Logger.prototype.logInfo = function(url, msg) {
-//     console.log(url, msg)
-//     var li = this.createOrFindElement(url)
-//     li.innerHTML = url + ' ' + msg
-    
-//     console.log(li)
-//     //outputElem.innerHTML += msg
-//     //outputElem.innerHTML += "<br/>"
-
-// }
-
-// Logger.prototype.createOrFindElement = function(url) {
-//     const outputElem = document.getElementById("output")
-//     const elemID = 'status_' + url
-//     var elem = document.getElementById(elemID);
-//     if(!elem) {
-//       var newLI = document.createElement("LI");
-//       newLI.setAttribute("id",elemID)
-//       outputElem.appendChild(newLI)
-//       return newLI
-//     }
-//     else 
-//     {
-//       console.log('found', elem)
-//       return elem;
-//     }
-// }
 class Logger {
     logInfo(url, msg) {
-        console.log(url, msg)
         var li = this.createOrFindElement(url)
-        li.innerHTML = url + ' ' + msg        
-        console.log(li)
-        //outputElem.innerHTML += msg
-        //outputElem.innerHTML += "<br/>"
-
+        li.innerHTML = '<td></td><td>' + url + '</td><td>' + msg + '</td><td></td>'        
     }
 
     createOrFindElement(url) {
@@ -42,14 +9,12 @@ class Logger {
         const elemID = 'status_' + url
         var elem = document.getElementById(elemID);
         if(!elem) {
-            var newLI = document.createElement("LI");
-            newLI.setAttribute("id",elemID)
-            outputElem.appendChild(newLI)
-            return newLI
+            var newTR = document.createElement("tr");
+            newTR.setAttribute("id",elemID)
+            outputElem.appendChild(newTR)
+            return newTR
         }
-        else 
-        {
-            console.log('found', elem)
+        else {
             return elem;
         }
     }

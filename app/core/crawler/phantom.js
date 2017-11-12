@@ -2,7 +2,7 @@ var childProcess = require('child_process')
 var phantomjs = require('phantomjs')
 var path = require('path')
 var binPath = phantomjs.path
-class PhantomRequests {
+class Phantom {
     phantomCrawl(url) {
       var childArgs = [path.join(__dirname, 'phantom_urls.js'), url]
       childProcess.execFile(binPath, childArgs, crawlComplete)
@@ -11,4 +11,4 @@ class PhantomRequests {
 }
 
 
-exports.PhantomRequests = PhantomRequests;
+exports.Phantom = Phantom;

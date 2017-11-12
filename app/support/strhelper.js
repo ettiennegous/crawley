@@ -1,6 +1,6 @@
 class StrHelper {
 
-    cleanLinks(baseURL, linksArray) {
+    static cleanLinks(baseURL, linksArray) {
         var filterFunc = (function(link) {
             link = link.toLowerCase()
             if(this.isEmptyLink(link)) return false
@@ -17,27 +17,27 @@ class StrHelper {
         return linksArray.filter(filterFunc).map(mapFunc);
     }
 
-    prefixDomain(baseURL, link) {
+    static prefixDomain(baseURL, link) {
         return (!link.startsWith("http")) ? baseURL + link : link
     }
 
-    isExternalLink(baseURL, link) {
+    static isExternalLink(baseURL, link) {
         return link.startsWith("http") && !link.startsWith(baseURL);
     }
 
-    isValidLink(baseURL, link) {
+    static isValidLink(baseURL, link) {
         return link.startsWith("http") || this.isURL(baseURL + link)
     }
 
-    isTelephoneLink(link) {
+    static isTelephoneLink(link) {
         return link.startsWith('tel:')
     }
 
-    isEmptyLink(link) {
+    static isEmptyLink(link) {
         return link.trim() == ''
     }
 
-    isURL(str) {
+    static isURL(str) {
         var pattern = new RegExp('^(https?:\\/\\/)?'+ // protocol
         '((([a-z\\d]([a-z\\d-]*[a-z\\d])*)\\.?)+[a-z]{2,}|'+ // domain name
         '((\\d{1,3}\\.){3}\\d{1,3}))'+ // OR ip (v4) address
@@ -47,7 +47,7 @@ class StrHelper {
         return pattern.test(str);
     }
 
-    splitLines(content) {
+    static splitLines(content) {
         return content.split("\n")
     }
         

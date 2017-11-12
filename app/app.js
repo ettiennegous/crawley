@@ -1,36 +1,30 @@
 //> killall phantomjs
 const Logger = require('./support/logger.js').Logger
-const PhantomRequests = require('./support/phantomrequests.js').PhantomRequests
-const CWebRequests = require('./support/webrequests.js').CWebRequests
+const Net = require('./core/crawler/net.js').Net
+const Phantom = require('./core/crawler/phantom.js').Phantom
 const StrHelper = require('./support/strhelper.js').StrHelper
-//const URL = 'https://stackoverflow.com'
-const URL = 'http://www.theage.com.au/'
 const maxThreadCount = 2
 const outputElem = document.getElementById('output')
 
 var currentThreadCount = 0
 var visitedPages = new Array()
 var logger = new Logger()
-var phantomRequests = new PhantomRequests()
-var webRequests = new CWebRequests()
-var strHelper = new StrHelper()
+var phantom = new Phantom()
+var net = new Net()
 
 var startButton = document.getElementById('btnStart')
+var URL = document.getElementById('url')
 
-startButton.addEventListener('click', function(){
-  //Entry Point
-  startButton.innerText = 'Stop'
-  crawlPages([URL])
+startButton.addEventListener('click', function() {
+  startButton.value = 'Stop'
+  crawlPages(URL.value, [URL.value])
 });
 
-
-
-
-function crawlPages(urlArray) {
+function crawlPages(baseURL, urlArray) {
     urlArray.forEach(function(url) {
       if(!visitedPages.includes(url)) {
         visitedPages.push(url);
-        crawlPage(url)
+        crawlPage(baseURL, url)
       }
     });
 }
@@ -41,35 +35,14 @@ function sleep(ms) {
 }
 
 
-function crawlPage(url) {
-
-  // if(currentThreadCount > maxThreadCount) {
-  //     logger.logInfo(url, ' waiting')
-  //     sleep(2000)
-  //     crawlPage(url)
-  // }
-  // else 
-  // {
-  //     currentThreadCount++
-  //     logger.logInfo(url, ' start')
-  //     //phantomCrawl(url)
-  //     webRequestCrawl(url)
-  // }
-  //phantomRequests.phantomCrawl(url)
-  webRequests.webRequestCrawl(url, pageCrawlComplete)
+function crawlPage(baseURL, url) {
+  net.Crawl(baseURL, url, pageCrawlComplete)
 }
 
-function crawlComplete(err, stdout, stderr) {
-  pageCrawlComplete(url, stdout)
-}
-
-
-function pageCrawlComplete(url, content)
-{
+function pageCrawlComplete(baseURL, url, content) {
   logger.logInfo(url, ' done')
   currentThreadCount--
-  var linksArray = strHelper.cleanLinks(URL, strHelper.splitLines(content))
-  crawlPages(linksArray)
+  var linksArray = StrHelper.cleanLinks(baseURL, StrHelper.splitLines(content))
+  crawlPages(baseURL, linksArray)
 
 }
-

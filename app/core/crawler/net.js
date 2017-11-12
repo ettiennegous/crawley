@@ -1,8 +1,7 @@
 const {net} = require('electron').remote
 
-class CWebRequests {
-    webRequestCrawl(url, callBack)
-    {
+class Net {
+    Crawl(baseURL, url, callBack) {
       const request = net.request(url)
       request.on('response', (response) => {
         var responseData = '';
@@ -16,14 +15,12 @@ class CWebRequests {
           while(match=patt.exec(responseData)){
             links += match[1] + "\n" 
           }    
-          callBack(url, links)
+          callBack(baseURL, url, links)
         })
       })
       request.end()
-    
     }
-    
 }
 
 
-exports.CWebRequests = CWebRequests;
+exports.Net = Net;

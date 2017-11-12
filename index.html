@@ -2,29 +2,52 @@
 <html>
   <head>
     <meta charset="UTF-8">
-    <title>Crawley, I crawl sites!</title>
+    <title>Hi I'm Crawley, I crawl sites!</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.6/css/bootstrap.min.css" integrity="sha384-rwoIResjU2yc3z8GV/NPeZWAv56rSmLldC3R/AZzGRnGxQQKnKkoFVhFQhNUwEyJ" crossorigin="anonymous">
+    <script>window.$ = window.jQuery = require('jquery');</script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/tether/1.4.0/js/tether.min.js" integrity="sha384-DztdAPBWPRXSA/3eYEEUWrWCy7G5KFbe8fFjk5JAIxUYHKkDx6Qin1DkWx51bBrb" crossorigin="anonymous"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.6/js/bootstrap.min.js" integrity="sha384-vBWWzlZJ8ea9aCX4pEW3rVHjgjt7zpkNpZk+02D9phzyeVkE+jo0ieGizqPLForn" crossorigin="anonymous"></script>
   </head>
   <body>
     <div id="body">
-        <form>
-            <fieldset>
-              <legend>Crawley</legend>
-              <p>
-                <label for="url">URL:</label>
-                <input type="text" name="url" id="url" value="https://stackoverflow.com">
-              </p>
-              <p>
-                <input type="radio" name="strategy" value="Fast" checked="checked"/>
-                <label for="strategy">Fast</label>
-                <input type="radio" name="strategy" value="Slow"/>
-                <label for="strategy">Slow</label>
-              </p>
-              <p>
-                <input type="button" id="btnStart" value="Start">
-              </p>
-            </fieldset>
-          </form>  
-          <ol id="output"></ol>
+      <div class="container">
+        <div class="row">
+          <div class="col-12">
+              <form>
+                  <fieldset>
+                    <legend>Crawley</legend>
+                    <p>
+                      <label for="url">URL:</label>
+                      <input type="text" name="url" id="url" value="http://www.theage.com.au/">
+                    </p>
+                    <p>
+                      <input type="radio" name="strategy" value="Fast" checked="checked"/>
+                      <label for="strategy">Fast</label>
+                      <input type="radio" name="strategy" value="Slow"/>
+                      <label for="strategy">Slow</label>
+                    </p>
+                    <p>
+                      <input type="button" id="btnStart" value="Start" class="btn">
+                    </p>
+                  </fieldset>
+                </form>  
+                <ol id="output1"></ol> 
+                <table>
+                  <thead>
+                    <tr>
+                      <th>Count</th>
+                      <th>URL</th>
+                      <th>Complete</th>
+                      <th>HTTP Code</th>
+                    </tr>
+                  </thead>
+                  <tbody id="output">
+
+                  </tbody>
+                </table>     
+          </div>
+        </div>
+      </div>
     </div>
     <script>
       // You can also require other files to run in this process
