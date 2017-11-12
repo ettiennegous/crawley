@@ -10,6 +10,7 @@
     "bluebird": "^3.5.1",
     "cheerio": "^1.0.0-rc.2",
     "electron": "1.7.8",
+    "electron-devtools-installer": "^2.2.1",
     "phantomjs": "^2.1.7"
   },
   "scripts": {
