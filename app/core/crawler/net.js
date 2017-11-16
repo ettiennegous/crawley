@@ -24,7 +24,7 @@ class Net {
             links += match[1] + "\n" 
           }    
           //console.log('Links ', links);
-          callBack(baseURL, url, links, 'done')    
+          callBack(baseURL, url, links, '200 OK')
           // Examine the text in the response
           //  response.json().then(function(data) {
           //    console.log(data);

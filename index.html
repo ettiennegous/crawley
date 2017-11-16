@@ -27,22 +27,23 @@
                       <label for="strategy">Slow</label>
                     </p>
                     <p>
-                      <input type="button" id="btnStart" value="Start" class="btn">
+                      <input type="button" id="btnStart" value="Start" class="btn btn-large btn-primary">
+                      <input type="button" id="btnReset" value="Reset" class="btn btn-large btn-secondary">
                     </p>
                   </fieldset>
                 </form>  
-                <ol id="output1"></ol> 
+                <span id="progress"></span>
                 <table>
                   <thead>
                     <tr>
                       <th>Count</th>
                       <th>URL</th>
-                      <th>Complete</th>
+                      <th>Status</th>
                       <th>HTTP Code</th>
                     </tr>
                   </thead>
                   <tbody id="output">
-
+                    <tr></tr>
                   </tbody>
                 </table>     
           </div>

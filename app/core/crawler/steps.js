@@ -1,54 +1,53 @@
-var visitedPages = new Array()
-//self.importScripts('foo.js');
+const Logger = require('../../support/logger.js').Logger
 const Net = require('./net.js').Net
 const StrHelper = require('../../support/strhelper.js').StrHelper
+
 var net = new Net()
+var logger = new Logger()
 var currentStatus = null;
 
-self.onmessage = function(e) {
-    let action = e.data[0]
-    let url = e.data[1]
-    switch(action) {
-        case 'Start':
-            currentStatus = 'Running'
-            self.crawlPages(url, [url])
-        break;
-        case 'Stop':
-            currentStatus = 'Stopped'
-        break;
-    }
-    self.postMessage('msg from worker');
-};
+class Steps {
 
-self.crawlPages = function (baseURL, urlArray) {
-    urlArray.forEach(function(url) {
-      if(!visitedPages.includes(url)) {
-        visitedPages.push(url);
-        crawlPage(baseURL, url)
-      }
-    });
+    start(url) {
+        this.crawlPages(url, [url])  
+        this.currentStatus = 'Running' 
+        this.totalCount = 0
+        this.completeCount = 0 
+    }
+
+    stop(url) {
+        this.currentStatus = 'Stopped'
+    }
+
+    crawlPages(baseURL, urlArray) {
+        urlArray.forEach(function(url) {
+            if(!logger.entryExists(url)) {
+                this.totalCount++
+                logger.createEntry(url)
+                this.crawlPage(baseURL, url)
+            }
+        }, this);
+    }
+      
+    crawlPage(baseURL, url) {
+        net.Crawl(baseURL, url, this.pageCrawlComplete.bind(this))
+        /*if(this.currentStatus == 'Running') {
+            net.Crawl(baseURL, url, this.pageCrawlComplete)
+        }
+        else if(this.currentStatus == 'Stopped') {
+            net.Skip(baseURL, url, this.pageCrawlComplete)
+        }*/
+    }
+      
+     pageCrawlComplete(baseURL, url, content, responseCode) {
+        this.completeCount++
+        logger.updateEntry(url, 'complete', responseCode)
+        logger.updateStats(this.totalCount, this.completeCount)
+        var linksArray = StrHelper.cleanLinks(baseURL, StrHelper.splitLines(content))
+        this.crawlPages(baseURL, linksArray)
+        
+      
+     }
 }
 
-// function sleep(ms) {
-//     var unixtime_ms = new Date().getTime();
-//     while(new Date().getTime() < unixtime_ms + ms) {}
-//   }
-  
-  
-self.crawlPage = function(baseURL, url) {
-    if(currentStatus == 'Running') {
-        net.Crawl(baseURL, url, pageCrawlComplete)
-    }
-    else if(currentStatus == 'Stopped') {
-        net.Skip(baseURL, url, pageCrawlComplete)
-    }
-    
-}
-  
- self.pageCrawlComplete = function(baseURL, url, content, status) {
-    self.postMessage(['CrawlComplete', url, status]);
-    //currentThreadCount--
-    var linksArray = StrHelper.cleanLinks(baseURL, StrHelper.splitLines(content))
-    crawlPages(baseURL, linksArray)
-  
- }
+exports.Steps = Steps;

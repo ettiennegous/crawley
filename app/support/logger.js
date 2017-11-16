@@ -1,22 +1,33 @@
 class Logger {
-    logInfo(url, msg) {
-        var li = this.createOrFindElement(url)
-        li.innerHTML = '<td></td><td>' + url + '</td><td>' + msg + '</td><td></td>'        
+
+    constructor() {
+        this.rowIDPrefix = 'tr';
     }
 
-    createOrFindElement(url) {
-        const outputElem = document.getElementById("output")
-        const elemID = 'status_' + url
-        var elem = document.getElementById(elemID);
-        if(!elem) {
-            var newTR = document.createElement("tr");
-            newTR.setAttribute("id",elemID)
-            outputElem.appendChild(newTR)
-            return newTR
-        }
-        else {
-            return elem;
-        }
+    resetResults()
+    {
+        $('#output').html('<tr></tr>');
+    }
+    
+    entryExists(url) {
+        return $('#' + this.rowIDPrefix + this.parseHTMLID(url)).length > 0;
+    }
+    
+    createEntry(url) {
+        $('#output tr:last').after('<tr id="'+ this.rowIDPrefix + this.parseHTMLID(url) + '"><td>' + url + '</td><td>Pending</td><td></td></tr>');
+    }
+    
+    updateEntry(url, status, response) {
+        $('#' + this.rowIDPrefix + this.parseHTMLID(url)).find("td").eq(1).html(status);
+        $('#' + this.rowIDPrefix + this.parseHTMLID(url)).find("td").eq(2).html(response);
+    }
+    
+    parseHTMLID(url) {
+        return url.replace(/([^A-Za-z0-9[\]{}_-])\s?/g, '')
+    }
+
+    updateStats(totalCount, completeCount) {
+        $('#progress').text(completeCount + '/' + totalCount)
     }
 }
 
