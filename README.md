@@ -11,7 +11,7 @@ A multi platform site crawler that can self discover your website and crawl page
 * Regression testing / Find 500 errors
 * Finding broken links
 
-#Todo #
+# Todo #
 * Put scroll bars on the table
 * Making it pretty
 * Implement overall progress indicator and a progress bar
