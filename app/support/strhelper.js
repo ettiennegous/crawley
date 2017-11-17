@@ -37,6 +37,16 @@ class StrHelper {
         return link.trim() == ''
     }
 
+    static getLinksFromContent(content) {
+        var links = [];
+        const patt = /<a href="(.*?)"/g;
+        var match;
+        while(match=patt.exec(content)) {
+            links.push(match[1])
+        }
+        return links
+    }
+
     static isURL(str) {
         var pattern = new RegExp('^(https?:\\/\\/)?'+ // protocol
         '((([a-z\\d]([a-z\\d-]*[a-z\\d])*)\\.?)+[a-z]{2,}|'+ // domain name

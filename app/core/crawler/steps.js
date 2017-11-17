@@ -45,21 +45,11 @@ class Steps {
         this.completeCount++
         logger.updateEntry(args.url, 'complete', args.responseCode)
         logger.updateStats(this.totalCount, this.completeCount)
-        var linksArray = StrHelper.cleanLinks(args.baseURL, this.getLinksFromContent(args.content))
+        var linksArray = StrHelper.cleanLinks(args.baseURL, StrHelper.getLinksFromContent(args.content))
         this.crawlPages(args.baseURL, linksArray)
         
       
-     }
-     
-     getLinksFromContent(content) {
-        var links = [];
-        const patt = /<a href="(.*?)"/g;
-        var match;
-        while(match=patt.exec(content)){
-            links.push(match[1])
-        }
-        return links
-     }
+     }     
 }
 
 exports.Steps = Steps;
