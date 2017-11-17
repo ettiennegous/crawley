@@ -7,44 +7,17 @@ class Net {
      }
      
      Crawl(baseURL, url, callBack) {
-
+      var status = null;
       fetch(url)
       .then(function(response) {
           if (response.status !== 200) {
             console.log('Looks like there was a problem. Status Code: ' + response.status);
-            return;
           }
-          return response.text();
-        }
-        ).then(function(html){
-          var patt = /<a href="(.*?)"/g;
-          var links = '';
-          var match;
-          while(match=patt.exec(`${html}`)){
-            links += match[1] + "\n" 
-          }    
-          //console.log('Links ', links);
-          callBack(baseURL, url, links, '200 OK')
-          // Examine the text in the response
-          //  response.json().then(function(data) {
-          //    console.log(data);
-          //  });
-
-        })
-        .catch(function(err) {
-          console.log('Fetch Error :-S', err);
+          status = response.status;
+          return response.text()
+        }).then(function(html) {
+          callBack(baseURL, url, `${html}`, status)
         });
-
-    //   const request = net.request(url)
-    //   request.on('response', (response) => {
-    //     var responseData = '';
-    //     response.on('data', (chunk) => {
-    //       responseData += `${chunk}`
-    //     })
-    //     response.on('end', () => {
-    //     })
-    //   })
-    //   request.end()
      }
 }
 

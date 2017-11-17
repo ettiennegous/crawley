@@ -9,8 +9,8 @@ class WorkerThread {
         // create a new web worker
         if (this.workerTask.script!= null) {
             var worker = new Worker(workerTask.script);
-            worker.addEventListener('message', dummyCallback, false);
-            worker.postMessage(workerTask.startMessage);
+            worker.addEventListener('message', this.dummyCallback.bind(this), false);
+            worker.postMessage(this.workerTask.startMessage);
         }
     }
  
@@ -18,10 +18,10 @@ class WorkerThread {
     // which also indicates the end of this worker.
     dummyCallback(event) {
         // pass to original callback
-        _this.workerTask.callback(event);
+        this.workerTask.callback(event);
  
         // we should use a seperate thread to add the worker
-        _this.parentPool.freeWorkerThread(_this);
+        this.parentPool.freeWorkerThread(this);
     }
 
 }

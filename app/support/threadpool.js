@@ -13,7 +13,7 @@ class ThreadPool {
     addWorkerTask(workerTask) {
         if (this.workerQueue.length > 0) {
             // get the worker from the front of the queue
-            var workerThread = _this.workerQueue.shift();
+            var workerThread = this.workerQueue.shift();
             workerThread.run(workerTask);
         } else {
             // no free workers,
@@ -23,7 +23,7 @@ class ThreadPool {
     
     init() {
         // create 'size' number of worker threads
-        for (var i = 0 ; i < size ; i++) {
+        for (var i = 0 ; i < this.poolSize ; i++) {
             this.workerQueue.push(new WorkerThread(this));
         }
     }

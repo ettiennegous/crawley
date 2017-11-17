@@ -1,28 +1,32 @@
 const Logger = require('../../support/logger.js').Logger
-const Net = require('./net.js').Net
 const StrHelper = require('../../support/strhelper.js').StrHelper
+const ThreadPool = require('../../support/threadpool.js').ThreadPool
+const WorkerTask = require('../../support/workertask.js').WorkerTask
 
-var net = new Net()
 var logger = new Logger()
-var currentStatus = null;
 
 class Steps {
-
-    start(url) {
-        this.crawlPages(url, [url])  
-        this.currentStatus = 'Running' 
+    
+    constructor(threadCount) {
         this.totalCount = 0
         this.completeCount = 0 
+        this.threadPool = new ThreadPool(threadCount)
+        this.threadPool.init()
+    }
+        
+    start(url) {
+        this.crawlPages(url, [url])  
     }
 
     stop(url) {
-        this.currentStatus = 'Stopped'
+
     }
 
     crawlPages(baseURL, urlArray) {
         urlArray.forEach(function(url) {
             if(!logger.entryExists(url)) {
                 this.totalCount++
+                logger.updateStats(this.totalCount, this.completeCount)
                 logger.createEntry(url)
                 this.crawlPage(baseURL, url)
             }
@@ -30,23 +34,31 @@ class Steps {
     }
       
     crawlPage(baseURL, url) {
-        net.Crawl(baseURL, url, this.pageCrawlComplete.bind(this))
-        /*if(this.currentStatus == 'Running') {
-            net.Crawl(baseURL, url, this.pageCrawlComplete)
+        if(this.threadPool) {
+            var workerTask = new WorkerTask('./app/core/crawler/worker.js', this.pageCrawlComplete.bind(this), {url: url, baseURL: baseURL});
+            this.threadPool.addWorkerTask(workerTask);        
         }
-        else if(this.currentStatus == 'Stopped') {
-            net.Skip(baseURL, url, this.pageCrawlComplete)
-        }*/
     }
       
-     pageCrawlComplete(baseURL, url, content, responseCode) {
+     pageCrawlComplete(event) {
+        var args = event.data;
         this.completeCount++
-        logger.updateEntry(url, 'complete', responseCode)
+        logger.updateEntry(args.url, 'complete', args.responseCode)
         logger.updateStats(this.totalCount, this.completeCount)
-        var linksArray = StrHelper.cleanLinks(baseURL, StrHelper.splitLines(content))
-        this.crawlPages(baseURL, linksArray)
+        var linksArray = StrHelper.cleanLinks(args.baseURL, this.getLinksFromContent(args.content))
+        this.crawlPages(args.baseURL, linksArray)
         
       
+     }
+     
+     getLinksFromContent(content) {
+        var links = [];
+        const patt = /<a href="(.*?)"/g;
+        var match;
+        while(match=patt.exec(content)){
+            links.push(match[1])
+        }
+        return links
      }
 }
 
