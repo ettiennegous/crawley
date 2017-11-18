@@ -2,6 +2,13 @@ class Logger {
 
     constructor() {
         this.rowIDPrefix = 'tr';
+        this.rowState = {
+            pending: "pending", 
+            paused: "paused",
+            error: "error",
+            done: "done"
+        };
+
     }
 
     resetResults()
@@ -14,12 +21,33 @@ class Logger {
     }
     
     createEntry(url) {
-        $('#output tr:last').after('<tr id="'+ this.rowIDPrefix + this.parseHTMLID(url) + '"><td>' + url + '</td><td>Pending</td><td></td></tr>');
+        $('#output tr:last').after('<tr id="'+ this.rowIDPrefix + this.parseHTMLID(url) + '" class="' + this.getEntryStateClass(this.rowState.pending) + '"><td>' + url + '</td><td></td><td>Pending</td></tr>');
     }
     
-    updateEntry(url, status, response) {
-        $('#' + this.rowIDPrefix + this.parseHTMLID(url)).find("td").eq(1).html(status);
-        $('#' + this.rowIDPrefix + this.parseHTMLID(url)).find("td").eq(2).html(response);
+    updateEntry(url, status, statusCode) {
+
+        //Duplicated need to fix
+        var tr = $('#' + this.rowIDPrefix + this.parseHTMLID(url));
+        tr.find('td').eq(1).html(statusCode);
+        tr.find('td').eq(2).html(status);
+        tr.attr('class', this.getEntryStateClass(status));
+    }
+
+    getEntryStateClass(status) {
+        switch(status) {
+            case this.rowState.pending:
+                return 'table-primary'
+            break;
+            case this.rowState.paused:
+                return 'table-warning'
+            break;
+            case this.rowState.error:
+                return 'table-danger'
+            break;
+            case this.rowState.done:
+                return 'table-success'
+            break;
+        }
     }
     
     parseHTMLID(url) {

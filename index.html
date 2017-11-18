@@ -18,7 +18,7 @@
                     <legend>Crawley</legend>
                     <p>
                       <label for="url">URL:</label>
-                      <input type="text" name="url" id="url" value="http://www.theage.com.au/">
+                      <input type="text" name="url" id="url" value="http://www.lexus.com.au/">
                     </p>
                     <p>
                       <input type="radio" name="strategy" value="Fast" checked="checked"/>
@@ -33,13 +33,12 @@
                   </fieldset>
                 </form>  
                 <span id="progress"></span>
-                <table>
+                <table class="table table-responsive-md">
                   <thead>
                     <tr>
-                      <th>Count</th>
-                      <th>URL</th>
-                      <th>Status</th>
-                      <th>HTTP Code</th>
+                      <th scope="col">URL</th>
+                      <th scope="col">HTTP Code</th>
+                      <th scope="col">Status</th>
                     </tr>
                   </thead>
                   <tbody id="output">
