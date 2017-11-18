@@ -5,11 +5,12 @@ const StrHelper = require('./support/strhelper.js').StrHelper
 const Steps = require('./core/crawler/steps.js').Steps
 
 const outputElem = $('#output')
-const threadCount = 60
 var phantom = new Phantom()
-var steps = new Steps(threadCount)
+var steps = null
 var startButton = $('#btnStart')
+var resetButton = $('#btnReset')
 var URL = $('#url').val()
+$('[data-toggle="tooltip"]').tooltip()
 
 //status = stopped, running, paused, completed
 //btn = start, pause, resume, done
@@ -26,7 +27,7 @@ const btnState = {
   pause: "pause",
   resume: "resume",
   done: "done"
-};
+}
 
 var app = {
   status: appState.stopped
@@ -34,10 +35,17 @@ var app = {
 
 startButton.click(function() {
   changeAppState()
-});
+})
+
+resetButton.click(function() {
+  steps.reset()
+  app.status = appState.stopped;
+  startButton.val(btnState.start)
+})
 
 function changeAppState() {
   if(app.status == appState.stopped) {
+    steps = new Steps(getThreadCount())
     app.status = appState.running
     steps.start(URL)
     startButton.val(btnState.pause)
@@ -52,10 +60,15 @@ function changeAppState() {
     app.status = appState.running
     startButton.val(btnState.running)
   }
-  else if(app.status == appState.completed) {
-    app.status = appState.completed
-    startButton.val(btnState.done)
-  }
 }
+
+function getThreadCount() {
+  return $('#threads').val();
+}
+// To be incorporated later
+// else if(app.status == appState.completed) {
+//   app.status = appState.completed
+//   startButton.val(btnState.done)
+// }
 
 

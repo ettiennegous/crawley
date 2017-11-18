@@ -1,58 +1,97 @@
 <!DOCTYPE html>
 <html>
-  <head>
-    <meta charset="UTF-8">
-    <title>Hi I'm Crawley, I crawl sites!</title>
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.6/css/bootstrap.min.css" integrity="sha384-rwoIResjU2yc3z8GV/NPeZWAv56rSmLldC3R/AZzGRnGxQQKnKkoFVhFQhNUwEyJ" crossorigin="anonymous">
-    <script>window.$ = window.jQuery = require('jquery');</script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/tether/1.4.0/js/tether.min.js" integrity="sha384-DztdAPBWPRXSA/3eYEEUWrWCy7G5KFbe8fFjk5JAIxUYHKkDx6Qin1DkWx51bBrb" crossorigin="anonymous"></script>
-    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.6/js/bootstrap.min.js" integrity="sha384-vBWWzlZJ8ea9aCX4pEW3rVHjgjt7zpkNpZk+02D9phzyeVkE+jo0ieGizqPLForn" crossorigin="anonymous"></script>
-  </head>
-  <body>
-    <div id="body">
-      <div class="container">
-        <div class="row">
-          <div class="col-12">
-              <form>
-                  <fieldset>
-                    <legend>Crawley</legend>
-                    <p>
-                      <label for="url">URL:</label>
-                      <input type="text" name="url" id="url" value="http://www.lexus.com.au/">
-                    </p>
-                    <p>
-                      <input type="radio" name="strategy" value="Fast" checked="checked"/>
-                      <label for="strategy">Fast</label>
-                      <input type="radio" name="strategy" value="Slow"/>
-                      <label for="strategy">Slow</label>
-                    </p>
-                    <p>
-                      <input type="button" id="btnStart" value="Start" class="btn btn-large btn-primary">
-                      <input type="button" id="btnReset" value="Reset" class="btn btn-large btn-secondary">
-                    </p>
-                  </fieldset>
-                </form>  
-                <span id="progress"></span>
-                <table class="table table-responsive-md">
-                  <thead>
-                    <tr>
-                      <th scope="col">URL</th>
-                      <th scope="col">HTTP Code</th>
-                      <th scope="col">Status</th>
-                    </tr>
-                  </thead>
-                  <tbody id="output">
-                    <tr></tr>
-                  </tbody>
-                </table>     
+
+<head>
+  <meta charset="UTF-8">
+  <title>Hi I'm Crawley, I crawl sites!</title>
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.6/css/bootstrap.min.css" integrity="sha384-rwoIResjU2yc3z8GV/NPeZWAv56rSmLldC3R/AZzGRnGxQQKnKkoFVhFQhNUwEyJ"
+    crossorigin="anonymous">
+  <link rel="stylesheet" href="./app/css/styles.css" />
+  <link rel="stylesheet" href="./node_modules/font-awesome/css/font-awesome.min.css" />
+  
+
+  <script>window.$ = window.jQuery = require('jquery');</script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/tether/1.4.0/js/tether.min.js" integrity="sha384-DztdAPBWPRXSA/3eYEEUWrWCy7G5KFbe8fFjk5JAIxUYHKkDx6Qin1DkWx51bBrb"
+    crossorigin="anonymous"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.6/js/bootstrap.min.js" integrity="sha384-vBWWzlZJ8ea9aCX4pEW3rVHjgjt7zpkNpZk+02D9phzyeVkE+jo0ieGizqPLForn"
+    crossorigin="anonymous"></script>
+</head>
+
+<body>
+  <div id="body">
+    <div class="container">
+      <div class="row">
+        <div class="col-12">
+          <div class="jumbotron jumbotron-fluid">
+            <div class="container">
+              <h1 class="display-3">Crawley</h1>
+
+            </div>
           </div>
+          <form>
+            <fieldset>
+              <div class="form-group">
+                  
+                <label for="url" data-toggle="tooltip" data-placement="top" data-html="true" title="Absolute URL of the site, <u>don't</u> crawl production sites<br/> <u>don't</u> use this app maliciously">
+                    <i class="fa fa-filter" aria-hidden="true"></i>Url:
+                </label>
+                <input type="url" class="form-control" name="url" id="url" value="http://www.lexus.com.au/" placeholder="http://www.example.com">
+              </div>
+              <div class="form-group">
+                <i class="fa fa-fighter-jet" aria-hidden="true" data-toggle="tooltip" data-placement="top" data-html="true" title="Either crawl the site using HTTP Requests <b>(Very fast)</b> but less accurate OR use PhantomJS headless browser which is much slower but will render pages with Javascript (So you can crawl AJAX pages)"></i>
+                <input type="radio" name="strategy" value="fast" checked="checked" />
+                <label for="strategy">Fast</label>
+                <input type="radio" name="strategy" value="slow" />
+                <label for="strategy">Slow</label>
+              </div>
+              <div class="form-group">
+                  <div id="slider">
+                    <label for="threads"  data-toggle="tooltip" data-placement="top" data-html="true" title="Number of concurrent processes that will be spawned to do the work, your computer and internet performance will degrade if you make this too big.">
+                      <i class="fa fa-sitemap" aria-hidden="true"></i>
+                      Crawling threads
+                    </label>
+                    <output id="rangevalue">1</output>
+                    <input type="range" min="1" max="40" name="threads" id="threads" class="form-control" onchange="rangevalue.value=value" value="1">
+                    <span class="highlight"></span>
+                    
+                  </div>
+                </div>
+              
+              <div class="form-group">
+                <input type="button" id="btnStart" value="start" class="btn btn-large btn-primary">
+                <input type="button" id="btnReset" value="reset" class="btn btn-large btn-secondary">
+              </div>
+            </fieldset>
+          </form>
+          
+          <table class="table table-responsive-md">
+            <thead>
+              <tr>
+                <th scope="col">URL</th>
+                <th scope="col">HTTP Code</th>
+                <th scope="col">Status</th>
+              </tr>
+            </thead>
+            <tbody id="output">
+              <tr></tr>
+            </tbody>
+          </table>
         </div>
       </div>
     </div>
-    <script>
-      // You can also require other files to run in this process
-      require('./app/app.js')
-      require('./renderer.js')
-    </script>
-  </body>
+    <div id="footer">
+      <div class="progress">
+        <div class="progress-bar progress-bar-striped progress-bar-animated" role="progressbar" id="progBar">
+          <span id="progText"></span>
+        </div>
+      </div>
+    </div>
+  </div>
+  <script>
+    // You can also require other files to run in this process
+    require('./app/app.js')
+    require('./renderer.js')
+  </script>
+</body>
+
 </html>

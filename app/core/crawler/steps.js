@@ -16,8 +16,10 @@ class Steps {
     constructor(threadCount) {
         this.totalCount = 0
         this.completeCount = 0
-        this.threadPool = new ThreadPool(threadCount)
+        this.threadCount = threadCount;
+        this.threadPool = new ThreadPool(this.threadCount)
         this.threadPool.init()
+        console.log(threadCount)
     }
 
     start(url) {
@@ -25,6 +27,15 @@ class Steps {
     }
 
     stop(url) {
+
+    }
+
+    reset() {
+        this.threadPool = null;
+        this.threadPool = new ThreadPool(this.threadCount)
+        this.threadPool.init()
+        logger.resetResults()
+        logger.updateStats(0, 0)
 
     }
 

@@ -4,7 +4,8 @@
   "description": "A site crawler to check for broken links/pages and performance testing",
   "main": "main.js",
   "dependencies": {
-    "electron": "^1.7.8"
+    "electron": "^1.7.8",
+    "font-awesome": "^4.7.0"
   },
   "devDependencies": {
     "bluebird": "^3.5.1",

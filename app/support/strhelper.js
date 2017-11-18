@@ -39,7 +39,7 @@ class StrHelper {
 
     static getLinksFromContent(content) {
         var links = [];
-        const patt = /<a href="(.*?)"/g;
+        const patt = /<a href=(?:"|')(.*?)(?:"|')/g;
         var match;
         while(match=patt.exec(content)) {
             links.push(match[1])

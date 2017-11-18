@@ -55,7 +55,10 @@ class Logger {
     }
 
     updateStats(totalCount, completeCount) {
-        $('#progress').text(completeCount + '/' + totalCount)
+        var percentComplete = totalCount > 0 ? ((completeCount / totalCount) * totalCount) : 0;
+        $('#progText').text(completeCount + '/' + totalCount)
+        $('#progBar').css({'width':  + '%'})
+        
     }
 }
 
