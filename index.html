@@ -6,7 +6,7 @@
   <title>Hi I'm Crawley, I crawl sites!</title>
   <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.6/css/bootstrap.min.css" integrity="sha384-rwoIResjU2yc3z8GV/NPeZWAv56rSmLldC3R/AZzGRnGxQQKnKkoFVhFQhNUwEyJ"
     crossorigin="anonymous">
-  <link rel="stylesheet" href="./app/css/styles.css" />
+  <link rel="stylesheet" href="./app/assets/css/styles.css" />
   <link rel="stylesheet" href="./node_modules/font-awesome/css/font-awesome.min.css" />
   
 
@@ -18,27 +18,30 @@
 </head>
 
 <body>
-  <div id="body">
+  <div id="body" class="stopped">
+    <div class="jumbotron jumbotron-fluid">
+        <svg viewbox="0 -5 70 70">  
+            <circle /><circle /><circle /><circle /><circle />
+            <circle /><circle /><circle /><circle /><circle />
+          </svg>
+      <div class="container jumbo-container">
+        <h1 class="display-3">Crawley</h1>
+      </div>
+    </div>
     <div class="container">
       <div class="row">
         <div class="col-12">
-          <div class="jumbotron jumbotron-fluid">
-            <div class="container">
-              <h1 class="display-3">Crawley</h1>
-
-            </div>
-          </div>
           <form>
             <fieldset>
               <div class="form-group">
                   
-                <label for="url" data-toggle="tooltip" data-placement="top" data-html="true" title="Absolute URL of the site, <u>don't</u> crawl production sites<br/> <u>don't</u> use this app maliciously">
+                <label for="url" data-toggle="tooltip" data-placement="right" data-html="true" title="Absolute URL of the site, <u>don't</u> crawl production sites<br/> <u>don't</u> use this app maliciously">
                     <i class="fa fa-filter" aria-hidden="true"></i>Url:
                 </label>
-                <input type="url" class="form-control" name="url" id="url" value="http://www.lexus.com.au/" placeholder="http://www.example.com">
+                <input type="url" class="form-control" name="url" id="url" value="http://www.test.com.au/" placeholder="http://www.example.com">
               </div>
               <div class="form-group">
-                <i class="fa fa-fighter-jet" aria-hidden="true" data-toggle="tooltip" data-placement="top" data-html="true" title="Either crawl the site using HTTP Requests <b>(Very fast)</b> but less accurate OR use PhantomJS headless browser which is much slower but will render pages with Javascript (So you can crawl AJAX pages)"></i>
+                <i class="fa fa-fighter-jet" aria-hidden="true" data-toggle="tooltip" data-placement="right" data-html="true" title="Either crawl the site using HTTP Requests <b>(Very fast)</b> but less accurate OR use PhantomJS headless browser which is much slower but will render pages with Javascript (So you can crawl AJAX pages)"></i>
                 <input type="radio" name="strategy" value="fast" checked="checked" />
                 <label for="strategy">Fast</label>
                 <input type="radio" name="strategy" value="slow" />
@@ -46,7 +49,7 @@
               </div>
               <div class="form-group">
                   <div id="slider">
-                    <label for="threads"  data-toggle="tooltip" data-placement="top" data-html="true" title="Number of concurrent processes that will be spawned to do the work, your computer and internet performance will degrade if you make this too big.">
+                    <label for="threads"  data-toggle="tooltip" data-placement="right" data-html="true" title="Number of concurrent processes that will be spawned to do the work, your computer and internet performance will degrade if you make this too big.">
                       <i class="fa fa-sitemap" aria-hidden="true"></i>
                       Crawling threads
                     </label>
@@ -62,23 +65,22 @@
                 <input type="button" id="btnReset" value="reset" class="btn btn-large btn-secondary">
               </div>
             </fieldset>
-          </form>
-          
-          <table class="table table-responsive-md">
-            <thead>
-              <tr>
-                <th scope="col">URL</th>
-                <th scope="col">HTTP Code</th>
-                <th scope="col">Status</th>
-              </tr>
-            </thead>
-            <tbody id="output">
-              <tr></tr>
-            </tbody>
-          </table>
+          </form>          
         </div>
       </div>
     </div>
+    <table class="table table-responsive-md">
+        <thead>
+          <tr>
+            <th scope="col">URL</th>
+            <th scope="col">HTTP Code</th>
+            <th scope="col">Status</th>
+          </tr>
+        </thead>
+        <tbody id="output">
+          <tr></tr>
+        </tbody>
+      </table>
     <div id="footer">
       <div class="progress">
         <div class="progress-bar progress-bar-striped progress-bar-animated" role="progressbar" id="progBar">

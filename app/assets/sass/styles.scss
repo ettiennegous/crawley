@@ -1,0 +1,68 @@
+#footer {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    right: 1;
+}
+
+.progress, .progress-bar {
+    height: 3rem;
+}
+
+.fa {
+    margin-right: 1.5rem;
+
+    &:before {
+        font-size: 1.5rem;
+    }
+}
+
+.jumbotron {
+    position: relative;
+    overflow: hidden;
+}
+
+.jumbo-container { 
+    z-index: 10;
+}
+
+/*Start Animation*/
+svg {
+    display: block;
+    position: absolute;
+    top: 0;
+    z-index: 10; 
+} 
+
+circle:nth-child(4n+1){fill:darkorange;}
+circle:nth-child(4n+2){fill:gold;}
+circle:nth-child(4n+3){fill:teal;}
+circle:nth-child(4n+4){fill:tomato;} 
+
+circle {
+    cy: 7;
+}
+
+@for $i from 0 through 20 {
+    circle:nth-child(#{$i}) {
+      cx :84 - ($i * 7);
+      r: 9 + (0.5 * $i);
+    }
+} 
+
+#body.running {
+    circle {
+        animation: circles 2s alternate infinite cubic-bezier(0.5, 0, 0.5, 1);
+        
+    }
+    
+    @for $i from 0 through 20 {
+      circle:nth-child(#{$i}) {
+        animation-delay:-0.15s * $i;
+      }
+    } 
+}  
+
+@keyframes circles { to {transform:translate(5%,50%);} }
+
+/*End Animation*/

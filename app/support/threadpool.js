@@ -38,6 +38,10 @@ class ThreadPool {
         }
     }
 
+    clear() {
+        this.taskQueue = [];
+    }
+
 }
 
 exports.ThreadPool = ThreadPool;

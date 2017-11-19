@@ -9,18 +9,20 @@ var phantom = new Phantom()
 var steps = null
 var startButton = $('#btnStart')
 var resetButton = $('#btnReset')
+var body = $('#body')
 var URL = $('#url').val()
 $('[data-toggle="tooltip"]').tooltip()
 
 //status = stopped, running, paused, completed
 //btn = start, pause, resume, done
 
-const appState = Object.freeze({
-  stopped: Symbol("stopped"), 
-  running: Symbol("running"),
-  paused: Symbol("paused"),
-  completed: Symbol("completed")
-});
+const appState = {
+  stopped: "stopped", 
+  running: "running",
+  resume: "resume",
+  paused: "paused",
+  completed: "completed"
+};
 
 const btnState = {
   start: "start", 
@@ -34,7 +36,16 @@ var app = {
 }
 
 startButton.click(function() {
-  changeAppState()
+  
+  if(app.status == appState.stopped) {
+    changeAppState(appState.running)
+  } 
+  else if(app.status == appState.running) {
+    changeAppState(appState.paused)
+  }
+  else if(app.status == appState.paused) {
+    changeAppState(appState.resume)
+  } 
 })
 
 resetButton.click(function() {
@@ -43,32 +54,39 @@ resetButton.click(function() {
   startButton.val(btnState.start)
 })
 
-function changeAppState() {
-  if(app.status == appState.stopped) {
-    steps = new Steps(getThreadCount())
-    app.status = appState.running
-    steps.start(URL)
-    startButton.val(btnState.pause)
-  
-  } 
-  else if(app.status == appState.running) {
-    app.status = appState.paused
-    steps.stop(URL)
-    startButton.val(btnState.resume)
+function changeAppState(targetState) {
+  switch(targetState)
+  {
+    case appState.running:
+      steps = new Steps(getThreadCount(), URL)
+      app.status = appState.running
+      steps.start(URL)
+      startButton.val(btnState.pause)
+    break;
+    case appState.paused:
+      app.status = appState.paused
+      steps.pause()
+      startButton.val(btnState.resume)
+
+    break;
+    case appState.resume:
+      app.status = appState.running
+      steps.resume()
+      startButton.val(btnState.pause)
+
+    break;
+    case appState.completed:
+      app.status = appState.completed
+      startButton.val(btnState.done)
+    break;
+
   }
-  else if(app.status == appState.paused) {
-    app.status = appState.running
-    startButton.val(btnState.running)
-  }
+  body.attr('class', app.status)
 }
 
 function getThreadCount() {
   return $('#threads').val();
 }
-// To be incorporated later
-// else if(app.status == appState.completed) {
-//   app.status = appState.completed
-//   startButton.val(btnState.done)
-// }
+
 
 

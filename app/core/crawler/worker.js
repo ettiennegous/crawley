@@ -4,7 +4,6 @@ const ThrottleDelayMS = 2000
 
 self.onmessage = function(event) {
     var args = event.data;
-    console.log('crawl')
     this.sleep(ThrottleDelayMS).then(() => {
         net.Crawl(args.baseURL, args.url, this.pageCrawlComplete.bind(this))
     });

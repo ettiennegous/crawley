@@ -10,49 +10,74 @@ const rowState = {
     done: "done"
   };
   
+const StepsState = {
+    running: 'running', 
+    stopped: 'stopped'
+}
 
 class Steps {
 
-    constructor(threadCount) {
+    constructor(threadCount, baseURL) {
         this.totalCount = 0
         this.completeCount = 0
         this.threadCount = threadCount;
-        this.threadPool = new ThreadPool(this.threadCount)
-        this.threadPool.init()
-        console.log(threadCount)
+        this.initThreadPool()
+        this.baseURL = baseURL;
     }
 
     start(url) {
-        this.crawlPages(url, [url])
+        this.stepsState = StepsState.running
+        this.crawlPages([url])
     }
 
-    stop(url) {
-
+    pause() {
+        this.stepsState = StepsState.stopped
+        this.emptyThreadPool()
+        logger.updateEntries(rowState.pending, rowState.paused)
     }
+
+    resume() {
+        this.stepsState = StepsState.running
+        var urls = logger.findUrlsOfStatus(rowState.paused)
+        urls.forEach(function(url){
+            logger.updateEntry(url, rowState.pending, '')
+            this.crawlPage(url)
+        }.bind(this)) 
+    }
+
 
     reset() {
-        this.threadPool = null;
-        this.threadPool = new ThreadPool(this.threadCount)
-        this.threadPool.init()
+        this.emptyThreadPool()
         logger.resetResults()
         logger.updateStats(0, 0)
 
     }
 
-    crawlPages(baseURL, urlArray) {
+    emptyThreadPool() {
+        this.threadPool.clear();
+    }
+
+    initThreadPool() {
+        this.threadPool = new ThreadPool(this.threadCount)
+        this.threadPool.init()
+    }
+
+    crawlPages(urlArray) {       
         urlArray.forEach(function (url) {
-            if (!logger.entryExists(url)) {
+            
+            if (!logger.entryExists(url) && this.stepsState == StepsState.running) {
                 this.totalCount++
                 logger.updateStats(this.totalCount, this.completeCount)
                 logger.createEntry(url)
-                this.crawlPage(baseURL, url)
+                this.crawlPage(url)
             }
         }, this);
+    
     }
 
-    crawlPage(baseURL, url) {
+    crawlPage(url) {
         if (this.threadPool) {
-            var workerTask = new WorkerTask('./app/core/crawler/worker.js', this.pageCrawlComplete.bind(this), { url: url, baseURL: baseURL });
+            var workerTask = new WorkerTask('./app/core/crawler/worker.js', this.pageCrawlComplete.bind(this), { url: url, baseURL: this.baseURL });
             this.threadPool.addWorkerTask(workerTask);
         }
     }
@@ -63,7 +88,7 @@ class Steps {
         logger.updateEntry(args.url, rowState.done, args.statusCode)
         logger.updateStats(this.totalCount, this.completeCount)
         var linksArray = StrHelper.cleanLinks(args.baseURL, StrHelper.getLinksFromContent(args.content))
-        this.crawlPages(args.baseURL, linksArray)
+        this.crawlPages(linksArray)
 
 
     }
