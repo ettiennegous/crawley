@@ -10,7 +10,7 @@ var steps = null
 var startButton = $('#btnStart')
 var resetButton = $('#btnReset')
 var body = $('#body')
-var URL = $('#url').val()
+var URL = $('#url')
 $('[data-toggle="tooltip"]').tooltip()
 
 //status = stopped, running, paused, completed
@@ -58,9 +58,9 @@ function changeAppState(targetState) {
   switch(targetState)
   {
     case appState.running:
-      steps = new Steps(getThreadCount(), URL)
+      steps = new Steps(getThreadCount(), URL.val())
       app.status = appState.running
-      steps.start(URL)
+      steps.start(URL.val())
       startButton.val(btnState.pause)
     break;
     case appState.paused:

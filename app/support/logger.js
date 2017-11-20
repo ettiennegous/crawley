@@ -70,9 +70,9 @@ class Logger {
     }
 
     updateStats(totalCount, completeCount) {
-        var percentComplete = totalCount > 0 ? ((completeCount / totalCount) * totalCount) : 0;
+        var percentComplete = totalCount > 0 ? ((completeCount / totalCount) * 100) : 0;
         $('#progText').text(completeCount + '/' + totalCount)
-        $('#progBar').css({ 'width': + '%' })
+        $('#progBar').css({ 'width': percentComplete + '%' })
 
     }
 }
