@@ -1,0 +1,79 @@
+<div class="content">
+  <div class="row">
+    <form class="col s12">
+      <div class="row">
+        <div class="col s12">
+          <h2>{{title}}</h2>
+        </div>
+      </div>
+      <div class="row">
+        <div class="input-field col s6">
+          <i class="material-icons prefix tooltipped" data-position="top" data-delay="50" data-tooltip="Absolute URL of the site, don't crawl production sites don't use this app maliciously">star</i>
+          <input [(ngModel)]="URL" name="URL" placeholder="http://www.example.com" id="url" type="url" class="validate">
+          <label for="url">URL</label>
+
+        </div>
+        <div class="input-field col s6">
+          <i class="material-icons prefix tooltipped" data-position="top" data-delay="50" data-tooltip="Either crawl the site using HTTP Requests (Very fast) but less accurate OR use PhantomJS headless browser which is much slower but will render pages with Javascript (So you can crawl AJAX pages)">timelapse</i>
+          <select>
+            <option value="fast">Fast</option>
+            <option value="slow">Slow</option>
+          </select>
+          <label>Crawl Strategy</label>
+        </div>
+      </div>
+
+      <div class="row">
+        <div class="range-field col s12">
+          <i class="material-icons prefix tooltipped" data-position="top" data-delay="50" data-tooltip="Number of concurrent processes that will be spawned to do the work, your computer and internet performance will degrade if you make this too big.">grain</i>
+          <input [(ngModel)]="Threads" name="Threads" type="range" id="threads" min="1" max="40" value="1" />
+          <label for="Threads">Threads</label>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col s3"> 
+          <a class="waves-effect waves-light btn-large" (click)="startClick()">
+            <i class="material-icons left">{{CurrentBtnIcon}}</i>{{CurrentBtnState}}
+          </a>
+          &nbsp;
+          <a class="waves-effect waves-light btn-large" (click)="resetClick()">
+              <i class="material-icons left">refresh</i>Reset
+          </a>
+        </div>
+      </div>
+      <div class="row">
+          <div class="col s12">
+              <div class="progress">
+                  <div class="determinate" [ngStyle]="{'width': CurrentProgress + '%'}"></div>
+              </div>
+          </div>
+      </div>
+    </form>
+  </div>
+  <div class="row">
+    <div class="col s12">
+      <table class="highlight striped">
+        <thead>
+          <tr>
+            <th scope="col">URL</th>
+            <th scope="col">HTTP Code</th>
+            <th scope="col">Status</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let crawlResult of CrawlResults">
+            <td>
+              {{crawlResult.url}}
+            </td>
+            <td>
+              {{crawlResult.httpCode}}
+            </td>
+            <td>
+              {{crawlResult.status}}
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>

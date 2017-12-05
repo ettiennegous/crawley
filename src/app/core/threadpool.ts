@@ -1,12 +1,16 @@
-const WorkerThread = require('../support/workerthread.js').WorkerThread
+import { WorkerTask } from './workertask';
+import { WorkerThread } from './workerthread';
 
-class ThreadPool {
+export class ThreadPool {
+
+    poolSize: number;
+    taskQueue: WorkerTask[] = [];
+    workerQueue: WorkerThread[] = [];
 
     constructor(size) {
         this.taskQueue = [];
         this.workerQueue = [];
-        this.poolSize = size;
-         
+        this.poolSize = size;     
     }
     
     
@@ -43,5 +47,3 @@ class ThreadPool {
     }
 
 }
-
-exports.ThreadPool = ThreadPool;

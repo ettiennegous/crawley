@@ -1,0 +1,219 @@
+.app {
+  /* Disable text selection, or your app will feel like a web page */
+  -webkit-user-select: none;
+  -webkit-app-region: drag;
+  /* Cover the whole window */
+  height: 100%;
+  /* Make sure this matches the native window background color that you pass to
+        * electron.BrowserWindow({...}), otherwise your app startup will look janky. */
+  background: white;
+  /* Smoother startup */
+  animation: fadein 0.5s; }
+
+#footer {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  right: 0; }
+
+.progress, .progress-bar {
+  height: 3rem; }
+
+.progText {
+  line-height: 3rem; }
+
+.fa {
+  margin-right: 1.5rem; }
+  .fa:before {
+    font-size: 1.5rem; }
+
+.jumbotron {
+  position: relative;
+  overflow: hidden; }
+
+.jumbo-container {
+  z-index: 10; }
+
+/*Start Animation*/
+svg {
+  display: block;
+  position: absolute;
+  top: 0;
+  z-index: 10; }
+
+circle:nth-child(4n+1) {
+  fill: darkorange; }
+
+circle:nth-child(4n+2) {
+  fill: gold; }
+
+circle:nth-child(4n+3) {
+  fill: teal; }
+
+circle:nth-child(4n+4) {
+  fill: tomato; }
+
+circle {
+  cy: 7; }
+
+circle:nth-child(0) {
+  cx: 84;
+  r: 9; }
+
+circle:nth-child(1) {
+  cx: 77;
+  r: 9.5; }
+
+circle:nth-child(2) {
+  cx: 70;
+  r: 10; }
+
+circle:nth-child(3) {
+  cx: 63;
+  r: 10.5; }
+
+circle:nth-child(4) {
+  cx: 56;
+  r: 11; }
+
+circle:nth-child(5) {
+  cx: 49;
+  r: 11.5; }
+
+circle:nth-child(6) {
+  cx: 42;
+  r: 12; }
+
+circle:nth-child(7) {
+  cx: 35;
+  r: 12.5; }
+
+circle:nth-child(8) {
+  cx: 28;
+  r: 13; }
+
+circle:nth-child(9) {
+  cx: 21;
+  r: 13.5; }
+
+circle:nth-child(10) {
+  cx: 14;
+  r: 14; }
+
+circle:nth-child(11) {
+  cx: 7;
+  r: 14.5; }
+
+circle:nth-child(12) {
+  cx: 0;
+  r: 15; }
+
+circle:nth-child(13) {
+  cx: -7;
+  r: 15.5; }
+
+circle:nth-child(14) {
+  cx: -14;
+  r: 16; }
+
+circle:nth-child(15) {
+  cx: -21;
+  r: 16.5; }
+
+circle:nth-child(16) {
+  cx: -28;
+  r: 17; }
+
+circle:nth-child(17) {
+  cx: -35;
+  r: 17.5; }
+
+circle:nth-child(18) {
+  cx: -42;
+  r: 18; }
+
+circle:nth-child(19) {
+  cx: -49;
+  r: 18.5; }
+
+circle:nth-child(20) {
+  cx: -56;
+  r: 19; }
+
+#body.running circle {
+  animation: circles 2s alternate infinite cubic-bezier(0.5, 0, 0.5, 1); }
+
+#body.running circle:nth-child(0) {
+  animation-delay: 0s; }
+
+#body.running circle:nth-child(1) {
+  animation-delay: -0.15s; }
+
+#body.running circle:nth-child(2) {
+  animation-delay: -0.3s; }
+
+#body.running circle:nth-child(3) {
+  animation-delay: -0.45s; }
+
+#body.running circle:nth-child(4) {
+  animation-delay: -0.6s; }
+
+#body.running circle:nth-child(5) {
+  animation-delay: -0.75s; }
+
+#body.running circle:nth-child(6) {
+  animation-delay: -0.9s; }
+
+#body.running circle:nth-child(7) {
+  animation-delay: -1.05s; }
+
+#body.running circle:nth-child(8) {
+  animation-delay: -1.2s; }
+
+#body.running circle:nth-child(9) {
+  animation-delay: -1.35s; }
+
+#body.running circle:nth-child(10) {
+  animation-delay: -1.5s; }
+
+#body.running circle:nth-child(11) {
+  animation-delay: -1.65s; }
+
+#body.running circle:nth-child(12) {
+  animation-delay: -1.8s; }
+
+#body.running circle:nth-child(13) {
+  animation-delay: -1.95s; }
+
+#body.running circle:nth-child(14) {
+  animation-delay: -2.1s; }
+
+#body.running circle:nth-child(15) {
+  animation-delay: -2.25s; }
+
+#body.running circle:nth-child(16) {
+  animation-delay: -2.4s; }
+
+#body.running circle:nth-child(17) {
+  animation-delay: -2.55s; }
+
+#body.running circle:nth-child(18) {
+  animation-delay: -2.7s; }
+
+#body.running circle:nth-child(19) {
+  animation-delay: -2.85s; }
+
+#body.running circle:nth-child(20) {
+  animation-delay: -3s; }
+
+@keyframes circles {
+  to {
+    transform: translate(5%, 50%); } }
+
+@keyframes fadein {
+  from {
+    opacity: 0; }
+  to {
+    opacity: 1; } }
+
+/*End Animation*/
