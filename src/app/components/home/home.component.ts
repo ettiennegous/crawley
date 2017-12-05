@@ -1,7 +1,7 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ChangeDetectorRef } from '@angular/core';
 import * as Enums from '../../core/enums';
 import { CrawlResult } from '../../core/crawl.result';
-import { Crawler } from '../../core/crawler';
+import { CrawlerService } from '../../crawler.service';
 
 @Component({
   selector: 'app-home',
@@ -16,12 +16,15 @@ export class HomeComponent implements OnInit {
   CurrentBtnState: Enums.BtnState;
   CurrentBtnIcon: Enums.BtnIcons;
   CrawlResults: CrawlResult[] = [];
-  Crawler: Crawler;
   URL: string = "http://www.test.com.au/";
   Threads: number = 1;
-  CurrentProgress = 0;
+  CompleteCount: number = 0;
+  TotalCount: number = 0;
+  CurrentProgressPerc: number = 0;
   
-  constructor() {
+  constructor(
+    private crawlerService: CrawlerService, 
+    private ref: ChangeDetectorRef) {
 
   }
 
@@ -30,6 +33,19 @@ export class HomeComponent implements OnInit {
     this.CurrentAppState = Enums.AppState.stopped
     this.CurrentBtnState = Enums.BtnState.start
     this.CurrentBtnIcon = Enums.BtnIcons.play
+    this.crawlerService.dataChange.subscribe(this.bindData.bind(this));
+  }
+
+  bindData(results: CrawlResult[]): void {
+    this.CrawlResults = results;
+    this.updateStats()
+    this.ref.detectChanges();
+  }
+
+  updateStats() {
+    this.TotalCount = this.CrawlResults.length;
+    this.CompleteCount = this.crawlerService.CrawlResultsOfStatus(Enums.ResultState.done).length;
+    this.CurrentProgressPerc = this.TotalCount > 0 ? ((this.CompleteCount / this.TotalCount) * 100) : 0;
   }
 
   startClick(): void {
@@ -47,8 +63,11 @@ export class HomeComponent implements OnInit {
   }
 
   resetClick(): void {
-    this.Crawler.reset();
+    this.crawlerService.reset();
     this.CrawlResults = [];
+    this.TotalCount = 0;
+    this.CompleteCount = 0;
+    this.CurrentProgressPerc = 0;
     this.ngOnInit();
   }
 
@@ -56,22 +75,21 @@ export class HomeComponent implements OnInit {
     switch(targetState)
     {
       case Enums.AppState.running:
-        this.Crawler = new Crawler(this.Threads, this.URL, this.CrawlResults)
+        this.crawlerService.setup(this.Threads, this.URL, this.CrawlResults)
         this.CurrentAppState = Enums.AppState.running
         this.CurrentBtnState = Enums.BtnState.pause
         this.CurrentBtnIcon = Enums.BtnIcons.pause
-        this.Crawler.start(this.URL)
+        this.crawlerService.start(this.URL)
       break;
       case Enums.AppState.paused:
         this.CurrentAppState = Enums.AppState.paused
-        this.Crawler.pause()
-        //startButton.val(btnState.resume)
+        this.crawlerService.pause()
         this.CurrentBtnState = Enums.BtnState.resume
         this.CurrentBtnIcon = Enums.BtnIcons.play
       break;
       case Enums.AppState.resume:
         this.CurrentAppState = Enums.AppState.running
-        this.Crawler.resume()
+        this.crawlerService.resume()
         //startButton.val(btnState.pause)
         this.CurrentBtnState = Enums.BtnState.pause
         this.CurrentBtnIcon = Enums.BtnIcons.pause

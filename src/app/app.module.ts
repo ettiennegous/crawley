@@ -12,6 +12,8 @@ import { HomeComponent } from './components/home/home.component';
 import { AppRoutingModule } from './app-routing.module';
 
 import { ElectronService } from './providers/electron.service';
+import { CrawlerService } from './crawler.service';
+import { StrHelperService } from './str-helper.service';
 
 @NgModule({
   declarations: [
@@ -25,7 +27,7 @@ import { ElectronService } from './providers/electron.service';
     HttpModule,
     AppRoutingModule
   ],
-  providers: [ElectronService],
+  providers: [ElectronService, CrawlerService, StrHelperService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
