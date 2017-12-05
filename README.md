@@ -23,6 +23,7 @@ A multi platform site crawler that can self discover your website and crawl page
 
 # Todo #
 * Fix doubleslash after base URL
+* Implement local profile file save so changes are remembered between opening and closing (Last URL, Thread Count etc)
 * Implement Mac OS progress indicators, 
 https://electronjs.org/docs/api/browser-window
 win.setProgressBar(progress[, options])
