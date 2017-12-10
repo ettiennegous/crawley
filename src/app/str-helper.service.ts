@@ -23,7 +23,19 @@ export class StrHelperService {
   }
 
   prefixDomain(baseURL: string, link: string) {
-    return (!link.startsWith("http")) ? baseURL + link : link
+    let newBaseUrl: string = this.preventDoubleSlash(baseURL, link);
+    return (!link.startsWith("http")) ? newBaseUrl + link : link
+  }
+
+  preventDoubleSlash(baseURL: string, link: string): string {
+    if(baseURL.endsWith('/') && link.startsWith('/'))
+    {
+      return baseURL.slice(0, -1);
+    }
+    else
+    {
+      return baseURL;
+    }
   }
 
   isExternalLink(baseURL: string, link: string) {
