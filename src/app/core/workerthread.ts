@@ -2,7 +2,7 @@ import { WorkerTask } from './workertask';
 import { ThreadPool } from './threadpool';
 import { createWorker, ITypedWorker } from 'typed-web-workers'
 import { IWWReq, IWWRes, WWReq } from './webworker.parameters'
-import { Net } from './net'
+import { RequestHttp as Fetcher }  from './request.http'
 
 export class WorkerThread {
 
@@ -16,8 +16,8 @@ export class WorkerThread {
 
     run(workerTask) : void {
         this.workerTask = workerTask;
-        let net = new Net();
-        let typedWorker: ITypedWorker<IWWReq, IWWRes> = createWorker(net.Crawl, this.callBack.bind(this));
+        let fetcher = new Fetcher();
+        let typedWorker: ITypedWorker<IWWReq, IWWRes> = createWorker(fetcher.Crawl, this.callBack.bind(this));
         typedWorker.postMessage(this.workerTask.startMessage);
     }
 
